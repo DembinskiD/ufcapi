@@ -5,9 +5,12 @@ import com.dembinski.ufcapi.json.Reader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,15 +31,12 @@ public class Fights {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{type}/count")
-    public Long getCountByFightType(@PathVariable String type) {
-        return this.reader.getAllFights().stream()
-                .filter(fight -> fight.getMain_or_prelim().equalsIgnoreCase(type))
-                .count();
-    }
-
     @GetMapping("/count")
-    public Integer getAllFightsCount() {
-        return this.reader.getAllFights().size();
+    public Long getAllFightsCount(@RequestParam Optional<String> type) {
+        return type.isPresent() ?
+                this.reader.getAllFights().stream()
+                        .filter(x -> x.getMain_or_prelim().equalsIgnoreCase(type.get()))
+                        .count() :
+                this.reader.getAllFights().size();
     }
 }
