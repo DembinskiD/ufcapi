@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -16,9 +15,11 @@ import java.util.stream.Collectors;
 public class FightsBy {
 
     private final List<Fight> allFights;
+    private final Predicates predicates;
 
-    public FightsBy(Reader reader) {
+    public FightsBy(Reader reader, Predicates predicates) {
         this.allFights = reader.getAllFights();
+        this.predicates = predicates;
     }
 
     @GetMapping("/getByType")
@@ -51,41 +52,11 @@ public class FightsBy {
 
     @GetMapping("/customQuery")
     public List<Fight> getDataByCustomQuery(@RequestParam Map<String, String> customQuery) {
-        Predicate<Fight> fightPredicate = customQuery.entrySet().stream().map(this::predicateFactoryMethod).reduce(Predicate::and).orElse(allPredicate());
+        Predicate<Fight> fightPredicate = customQuery.entrySet().stream().map(predicates::getPredicate).reduce(Predicate::and).orElse(fight -> true);
 
         return allFights
                 .stream()
                 .filter(fightPredicate)
                 .collect(Collectors.toList());
-    }
-
-    private Predicate<Fight> predicateFactoryMethod(Entry<String, String> inputMethod) {
-        return switch (inputMethod.getKey()) {
-            case "type" -> byTypePredicate(inputMethod.getValue());
-            case "winner" -> byWinnerPredicate(inputMethod.getValue());
-            case "date" -> byDatePredicate(inputMethod.getValue());
-            case "fighter" -> byFighterPredicate(inputMethod.getValue());
-            default -> allPredicate();
-        };
-    }
-
-    private Predicate<Fight> allPredicate() {
-        return fight -> true;
-    }
-
-    private Predicate<Fight> byTypePredicate(String type) {
-        return fight -> fight.getMain_or_prelim().equalsIgnoreCase(type);
-    }
-
-    private Predicate<Fight> byWinnerPredicate(String winner) {
-        return fight -> fight.getWinner().contains(winner);
-    }
-
-    private Predicate<Fight> byDatePredicate(String date) {
-        return fight -> fight.getDate().equalsIgnoreCase(date);
-    }
-
-    private Predicate<Fight> byFighterPredicate(String fighter) {
-        return fight -> fight.getFighter_1().contains(fighter) || fight.getFighter_2().contains(fighter);
     }
 }
