@@ -2,10 +2,13 @@ package com.dembinski.ufcapi.rest;
 
 import com.dembinski.ufcapi.data.Fight;
 import com.dembinski.ufcapi.json.Reader;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,7 @@ public class FightsBy {
                 .filter(fight -> fight.getMain_or_prelim().equalsIgnoreCase(type))
                 .collect(Collectors.toList());
     }
+
     @GetMapping("/getByDate")
     public List<Fight> getFightsByDate(@RequestParam String date) {
         return allFights.stream()
@@ -46,16 +50,31 @@ public class FightsBy {
     }
 
     @GetMapping("/customQuery")
-    public String getDataByCustomQuery(@RequestParam Map<String, String> customQuery) {
-        Predicate<Fight> finalPredicate = fight -> true;
+    public List<Fight> getDataByCustomQuery(@RequestParam Map<String, String> customQuery) {
+        Predicate<Fight> fightPredicate = customQuery.entrySet().stream().map(this::predicateFactoryMethod).reduce(Predicate::and).orElse(allPredicate());
 
+        return allFights
+                .stream()
+                .filter(fightPredicate)
+                .collect(Collectors.toList());
+    }
 
+    private Predicate<Fight> predicateFactoryMethod(Entry<String, String> inputMethod) {
+        return switch (inputMethod.getKey()) {
+            case "type" -> byTypePredicate(inputMethod.getValue());
+            case "winner" -> byWinnerPredicate(inputMethod.getValue());
+            case "date" -> byDatePredicate(inputMethod.getValue());
+            case "fighter" -> byFighterPredicate(inputMethod.getValue());
+            default -> allPredicate();
+        };
+    }
 
-        return customQuery.entrySet().toString();
+    private Predicate<Fight> allPredicate() {
+        return fight -> true;
     }
 
     private Predicate<Fight> byTypePredicate(String type) {
-        return fight -> fight.getMain_or_prelim().equals(type);
+        return fight -> fight.getMain_or_prelim().equalsIgnoreCase(type);
     }
 
     private Predicate<Fight> byWinnerPredicate(String winner) {
@@ -63,7 +82,7 @@ public class FightsBy {
     }
 
     private Predicate<Fight> byDatePredicate(String date) {
-        return fight -> fight.getDate().equals(date);
+        return fight -> fight.getDate().equalsIgnoreCase(date);
     }
 
     private Predicate<Fight> byFighterPredicate(String fighter) {
