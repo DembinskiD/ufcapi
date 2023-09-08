@@ -11,10 +11,4 @@ class UfcApiApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
-	@Test
-	void failTest() {
-		assertTrue(1 == 0);
-	}
-
 }
