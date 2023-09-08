@@ -11,4 +11,9 @@ class UfcApiApplicationTests {
 	@Test
 	void contextLoads() {
 	}
+
+	@Test
+	void testFail() {
+		assertTrue(false);
+	}
 }
