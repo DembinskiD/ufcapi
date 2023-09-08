@@ -2,13 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage("checkout") {
-            steps {
-                bat "dir"
-                git branch:'main', url: 'https://github.com/DembinskiD/ufcapi'
-                bat "dir"
-            }
-        }
         stage("build") {
             steps {
                 bat '.\\mvnw package'
