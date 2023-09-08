@@ -31,4 +31,6 @@ public class Fights {
                         .count() :
                 this.allFights.size();
     }
+
+
 }

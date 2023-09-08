@@ -8,11 +8,11 @@ import java.util.function.Predicate;
 
 @Service
 public class Predicates {
-    FightPredicate allFightPredicate = new AllFightPredicate();
-    FightPredicate byTypePredicate = new ByTypePredicate();
-    FightPredicate byWinnerPredicate = new ByWinnerPredicate();
-    FightPredicate byDatePredicate = new ByDatePredicate();
-    FightPredicate byFighterPredicate = new ByFighterPredicate();
+    private final FightPredicate allFightPredicate = new AllFightPredicate();
+    private final FightPredicate byTypePredicate = new ByTypePredicate();
+    private final FightPredicate byWinnerPredicate = new ByWinnerPredicate();
+    private final FightPredicate byDatePredicate = new ByDatePredicate();
+    private final FightPredicate byFighterPredicate = new ByFighterPredicate();
 
     public Predicate<Fight> getPredicate(Entry<String, String> inputMethod) {
         return switch (inputMethod.getKey()) {
