@@ -2,8 +2,10 @@ package com.dembinski.ufcapi.data;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Fight {
+public class Fight implements Serializable {
     private String date;
     private String promotion;
     private String event;
