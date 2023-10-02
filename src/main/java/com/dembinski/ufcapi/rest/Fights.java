@@ -2,6 +2,9 @@ package com.dembinski.ufcapi.rest;
 
 import com.dembinski.ufcapi.data.Fight;
 import com.dembinski.ufcapi.json.FightReader;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,11 +13,16 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Slf4j
+@RequiredArgsConstructor
 public class Fights {
 
-    private final List<Fight> allFights;
+    private final FightReader fightReader;
 
-    public Fights(FightReader fightReader) {
+    private List<Fight> allFights;
+
+    @PostConstruct
+    void getListOfFights() {
         this.allFights = fightReader.getAllFights();
     }
 

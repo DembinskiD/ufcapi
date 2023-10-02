@@ -24,9 +24,9 @@ public class FightReader {
     private final int updateEveryDays = 10; //todo move it to properties
     private String TARGET_FILE_NAME = "full_data.json"; //todo as above
 
-    private FightList readFightListFromFile() {
+    protected FightList readFightListFromFile() {
         try {
-            FileInputStream fileInputStream = new FileInputStream(TARGET_FILE_NAME);
+            FileInputStream fileInputStream = new FileInputStream(new File(Path.of(TARGET_FILE_NAME).toUri()));
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             return (FightList) objectInputStream.readObject();
         } catch (IOException | NullPointerException e) {
@@ -37,11 +37,20 @@ public class FightReader {
         }
     }
 
-    private void removeExistingFightList() {
+    protected void removeExistingFightList() {
         try {
+            log.info("Trying to remove file");
             Files.delete(Path.of(TARGET_FILE_NAME));
         } catch (IOException e) {
             log.debug("Issue removing existing file {}", TARGET_FILE_NAME);
+        }
+    }
+
+    protected void checkIfFileExists() {
+        if (Files.exists(Path.of(TARGET_FILE_NAME))) {
+            log.info("File exists: {}", Path.of(TARGET_FILE_NAME));
+        } else {
+            log.info("File does not exist: {}", Path.of(TARGET_FILE_NAME));
         }
     }
 
@@ -73,7 +82,7 @@ public class FightReader {
         }
     }
 
-    private FightList getFightListFromAPI() {
+    protected FightList getFightListFromAPI() {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
         List<Fight> list;
