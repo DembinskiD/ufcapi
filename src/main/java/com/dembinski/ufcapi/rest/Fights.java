@@ -3,6 +3,7 @@ package com.dembinski.ufcapi.rest;
 import com.dembinski.ufcapi.data.Fight;
 import com.dembinski.ufcapi.json.FightReader;
 import jakarta.annotation.PostConstruct;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
