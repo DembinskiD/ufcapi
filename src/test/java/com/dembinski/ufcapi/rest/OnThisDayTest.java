@@ -5,6 +5,7 @@ import com.dembinski.ufcapi.json.FightReader;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -16,7 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class OnThisDayTest {
 
     @Mock
-    private OnThisDay onThisDay;
+    private FightReader fightReader;
+
+    @Spy
+    private OnThisDay onThisDay = new OnThisDay(fightReader);
 
     @Test
     void getListOfFights() {
@@ -25,14 +29,9 @@ class OnThisDayTest {
 
 
         List<Fight> fights = onThisDay.whatHappenedOnThisDay();
-        List<Boolean> didFightsHappen = getListOfTestFights()
-                .stream()
-                .map(fight -> onThisDay.didFightHappenOnThisDay(fight))
-                .toList();
 
-        assertEquals(3, didFightsHappen.stream().map(x -> x.equals(true)).toList().size());
-        assertEquals(3, fights.size());
-        assertEquals(3, fights.stream().filter(fight -> fight.getDate().equals("2023-09-13")).count());
+        assertEquals(2, fights.size());
+        assertEquals(2, fights.stream().filter(fight -> fight.getDate().equals("2023-09-13")).count());
     }
 
     private List<Fight> getListOfTestFights() {

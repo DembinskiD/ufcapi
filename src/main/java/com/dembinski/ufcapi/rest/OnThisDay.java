@@ -41,11 +41,8 @@ public class OnThisDay {
         try {
             LocalDate fightDate = LocalDate.parse(fight.getDate(), DateTimeFormatter.ISO_DATE);
             LocalDate thisDay = getThisDay();
-            log.info("fightDate: {}", fightDate);
-            log.info("thisDate: {}", thisDay);
-            boolean b = (thisDay.getMonth().equals(fightDate.getMonth())) && (thisDay.getDayOfMonth() == fightDate.getDayOfMonth());
-            log.info("bool: {}", b);
-            return b;
+
+            return (thisDay.getMonth().equals(fightDate.getMonth())) && (thisDay.getDayOfMonth() == fightDate.getDayOfMonth());
         } catch (DateTimeException exception) {
             log.debug("Returning false due to DateTimeException in didFightHappenOnThisDay: {}", exception.toString());
             return false;
