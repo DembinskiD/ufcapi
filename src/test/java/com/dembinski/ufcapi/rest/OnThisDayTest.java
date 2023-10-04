@@ -1,7 +1,7 @@
 package com.dembinski.ufcapi.rest;
 
-import com.dembinski.ufcapi.data.Fight;
-import com.dembinski.ufcapi.json.FightReader;
+import com.dembinski.ufcapi.source.Fight;
+import com.dembinski.ufcapi.source.FightReader;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;

@@ -1,5 +1,6 @@
 package com.dembinski.ufcapi.data;
 
+import com.dembinski.ufcapi.source.Fight;
 import lombok.Builder;
 
 import java.io.Serializable;

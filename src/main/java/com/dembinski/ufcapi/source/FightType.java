@@ -1,4 +1,4 @@
-package com.dembinski.ufcapi.data;
+package com.dembinski.ufcapi.source;
 
 public enum FightType {
     Main, Prelim

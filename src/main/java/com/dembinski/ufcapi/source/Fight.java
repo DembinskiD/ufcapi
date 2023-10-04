@@ -1,4 +1,4 @@
-package com.dembinski.ufcapi.data;
+package com.dembinski.ufcapi.source;
 
 import lombok.Builder;
 import lombok.Data;

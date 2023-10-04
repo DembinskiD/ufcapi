@@ -1,6 +1,6 @@
-package com.dembinski.ufcapi.json;
+package com.dembinski.ufcapi.source;
 
-import com.dembinski.ufcapi.data.Fight;
+
 import com.dembinski.ufcapi.data.FightList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
