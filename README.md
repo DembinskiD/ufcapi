@@ -7,3 +7,4 @@ TODO LIST:
 - Security layer?
 - package-info.java
 - architecture tests
+- make app stateless?
