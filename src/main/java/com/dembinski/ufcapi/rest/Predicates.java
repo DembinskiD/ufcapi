@@ -1,6 +1,6 @@
 package com.dembinski.ufcapi.rest;
 
-import com.dembinski.ufcapi.data.Fight;
+import com.dembinski.ufcapi.source.Fight;
 import org.springframework.stereotype.Service;
 
 import java.util.Map.Entry;

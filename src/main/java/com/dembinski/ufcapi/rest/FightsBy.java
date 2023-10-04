@@ -1,7 +1,7 @@
 package com.dembinski.ufcapi.rest;
 
-import com.dembinski.ufcapi.data.Fight;
-import com.dembinski.ufcapi.json.Reader;
+import com.dembinski.ufcapi.source.Fight;
+import com.dembinski.ufcapi.source.FightReader;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +17,8 @@ public class FightsBy {
     private final List<Fight> allFights;
     private final Predicates predicates;
 
-    public FightsBy(Reader reader, Predicates predicates) {
-        this.allFights = reader.getAllFights();
+    public FightsBy(FightReader fightReader, Predicates predicates) {
+        this.allFights = fightReader.getAllFights();
         this.predicates = predicates;
     }
 
