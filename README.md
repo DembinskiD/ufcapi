@@ -7,3 +7,4 @@ TODO LIST:
 - package-info.java
 - architecture tests
 - make app stateless?
+- **WORKING ON MAPSTRUCT NOW**

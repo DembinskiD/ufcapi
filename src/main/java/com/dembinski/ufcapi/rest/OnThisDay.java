@@ -39,7 +39,7 @@ public class OnThisDay {
 
     protected boolean didFightHappenOnThisDay(FightDTO fightDTO) {
         try {
-            LocalDate fightDate = LocalDate.parse(fightDTO.getDate(), DateTimeFormatter.ISO_DATE);
+            LocalDate fightDate = fightDTO.getDate();
             LocalDate thisDay = getThisDay();
 
             return (thisDay.getMonth().equals(fightDate.getMonth())) && (thisDay.getDayOfMonth() == fightDate.getDayOfMonth());

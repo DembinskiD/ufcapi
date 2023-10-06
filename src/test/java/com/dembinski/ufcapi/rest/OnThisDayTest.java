@@ -8,8 +8,8 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +32,7 @@ class OnThisDayTest {
         List<FightDTO> fights = onThisDay.whatHappenedOnThisDay();
 
         assertEquals(2, fights.size());
-        assertEquals(2, fights.stream().filter(fight -> fight.getDate().equals("2023-09-13")).count());
+        assertEquals(2, fights.stream().filter(fight -> fight.getDate().equals(LocalDate.of(2023, 9, 13))).count());
     }
 
     private List<FightDTO> getListOfTestFights() {
@@ -46,7 +46,7 @@ class OnThisDayTest {
 
     private FightDTO createFight(String date) {
         return FightDTO.builder()
-                .date(date)
+                .date(LocalDate.parse(date, DateTimeFormatter.ISO_DATE))
                 .build();
     }
 }

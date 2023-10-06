@@ -3,6 +3,8 @@ package com.dembinski.ufcapi.rest;
 import com.dembinski.ufcapi.source.FightDTO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 
@@ -37,28 +39,28 @@ class AllFightPredicate implements FightPredicate {
 class ByTypePredicate implements FightPredicate {
     @Override
     public Predicate<FightDTO> getPredicate(String value) {
-        return fight -> fight.getMain_or_prelim().equalsIgnoreCase(value);
+        return fightDTO -> fightDTO.getMain_or_prelim().equalsIgnoreCase(value);
     }
 }
 
 class ByWinnerPredicate implements FightPredicate {
     @Override
     public Predicate<FightDTO> getPredicate(String value) {
-        return fight -> fight.getWinner().contains(value);
+        return fightDTO -> fightDTO.getWinner().contains(value);
     }
 }
 
 class ByFighterPredicate implements FightPredicate {
     @Override
     public Predicate<FightDTO> getPredicate(String value) {
-        return fight -> fight.getFighter_1().contains(value) || fight.getFighter_2().contains(value);
+        return fightDTO -> fightDTO.getFighter_1().contains(value) || fightDTO.getFighter_2().contains(value);
     }
 }
 
 class ByDatePredicate implements FightPredicate {
     @Override
     public Predicate<FightDTO> getPredicate(String value) {
-        return fight -> fight.getDate().equalsIgnoreCase(value);
+        return fightDTO -> fightDTO.getDate().equals(LocalDate.parse(value, DateTimeFormatter.ISO_DATE));
     }
 }
 

@@ -2,6 +2,7 @@ package com.dembinski.ufcapi.data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Table(name = "Fight")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Data
+@Builder
 public class Fight {
 
     @Id
