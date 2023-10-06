@@ -1,6 +1,6 @@
 package com.dembinski.ufcapi.rest;
 
-import com.dembinski.ufcapi.source.Fight;
+import com.dembinski.ufcapi.source.FightDTO;
 import com.dembinski.ufcapi.source.FightReader;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
@@ -22,24 +22,24 @@ import java.util.stream.Collectors;
 public class OnThisDay {
 
     private final FightReader fightReader;
-    private List<Fight> allFights;
+    private List<FightDTO> allFightDTOS;
 
     @PostConstruct
     void getListOfFights() {
-        this.allFights = fightReader.getAllFights();
+        this.allFightDTOS = fightReader.getAllFights();
     }
 
     @GetMapping("/onThisDay")
-    public List<Fight> whatHappenedOnThisDay() {
-        return getAllFights()
+    public List<FightDTO> whatHappenedOnThisDay() {
+        return getAllFightDTOS()
                 .stream()
                 .filter(this::didFightHappenOnThisDay)
                 .collect(Collectors.toList());
     }
 
-    protected boolean didFightHappenOnThisDay(Fight fight) {
+    protected boolean didFightHappenOnThisDay(FightDTO fightDTO) {
         try {
-            LocalDate fightDate = LocalDate.parse(fight.getDate(), DateTimeFormatter.ISO_DATE);
+            LocalDate fightDate = LocalDate.parse(fightDTO.getDate(), DateTimeFormatter.ISO_DATE);
             LocalDate thisDay = getThisDay();
 
             return (thisDay.getMonth().equals(fightDate.getMonth())) && (thisDay.getDayOfMonth() == fightDate.getDayOfMonth());

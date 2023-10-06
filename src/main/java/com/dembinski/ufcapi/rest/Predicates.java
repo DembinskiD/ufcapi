@@ -1,6 +1,6 @@
 package com.dembinski.ufcapi.rest;
 
-import com.dembinski.ufcapi.source.Fight;
+import com.dembinski.ufcapi.source.FightDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Map.Entry;
@@ -14,7 +14,7 @@ public class Predicates {
     private final FightPredicate byDatePredicate = new ByDatePredicate();
     private final FightPredicate byFighterPredicate = new ByFighterPredicate();
 
-    public Predicate<Fight> getPredicate(Entry<String, String> inputMethod) {
+    public Predicate<FightDTO> getPredicate(Entry<String, String> inputMethod) {
         return switch (inputMethod.getKey()) {
             case "type" -> byTypePredicate.getPredicate(inputMethod.getValue());
             case "winner" -> byWinnerPredicate.getPredicate(inputMethod.getValue());
@@ -26,7 +26,7 @@ public class Predicates {
 }
 
 interface FightPredicate {
-    default Predicate<Fight> getPredicate(String value) {
+    default Predicate<FightDTO> getPredicate(String value) {
         return fight -> true;
     }
 }
@@ -36,28 +36,28 @@ class AllFightPredicate implements FightPredicate {
 
 class ByTypePredicate implements FightPredicate {
     @Override
-    public Predicate<Fight> getPredicate(String value) {
+    public Predicate<FightDTO> getPredicate(String value) {
         return fight -> fight.getMain_or_prelim().equalsIgnoreCase(value);
     }
 }
 
 class ByWinnerPredicate implements FightPredicate {
     @Override
-    public Predicate<Fight> getPredicate(String value) {
+    public Predicate<FightDTO> getPredicate(String value) {
         return fight -> fight.getWinner().contains(value);
     }
 }
 
 class ByFighterPredicate implements FightPredicate {
     @Override
-    public Predicate<Fight> getPredicate(String value) {
+    public Predicate<FightDTO> getPredicate(String value) {
         return fight -> fight.getFighter_1().contains(value) || fight.getFighter_2().contains(value);
     }
 }
 
 class ByDatePredicate implements FightPredicate {
     @Override
-    public Predicate<Fight> getPredicate(String value) {
+    public Predicate<FightDTO> getPredicate(String value) {
         return fight -> fight.getDate().equalsIgnoreCase(value);
     }
 }

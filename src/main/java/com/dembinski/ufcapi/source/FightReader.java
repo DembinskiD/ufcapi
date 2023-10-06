@@ -64,28 +64,28 @@ public class FightReader {
         }
     }
 
-    public List<Fight> getAllFights() {
+    public List<FightDTO> getAllFights() {
         if (Files.exists(Path.of(TARGET_FILE_NAME))) {
             FightList fightList = readFightListFromFile();
             if (shouldUpdateData(fightList)) {
                 removeExistingFightList();
                 FightList fightListFromAPI = getFightListFromAPI();
                 saveToFile(fightListFromAPI);
-                return fightListFromAPI.fights();
+                return fightListFromAPI.fightDTOS();
             } else {
-                return fightList.fights();
+                return fightList.fightDTOS();
             }
         } else {
             FightList fightListFromAPI = getFightListFromAPI();
             saveToFile(fightListFromAPI);
-            return fightListFromAPI.fights();
+            return fightListFromAPI.fightDTOS();
         }
     }
 
     protected FightList getFightListFromAPI() {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
-        List<Fight> list;
+        List<FightDTO> list;
 
         String stringData = Objects.requireNonNull(restTemplate.getForObject(uri, String.class))
                 .lines()
@@ -93,7 +93,7 @@ public class FightReader {
                 .findFirst()
                 .orElse("");
         try {
-            list = Arrays.asList(mapper.readValue(stringData, Fight[].class));
+            list = Arrays.asList(mapper.readValue(stringData, FightDTO[].class));
         } catch (IOException e) {
             log.error("Cannot read value from stringData.");
             list = new ArrayList<>();
@@ -102,10 +102,10 @@ public class FightReader {
         return createFightList(list);
     }
 
-    private FightList createFightList(List<Fight> fightList) {
+    private FightList createFightList(List<FightDTO> fightDTOList) {
         return FightList
                 .builder()
-                .fights(fightList)
+                .fightDTOS(fightDTOList)
                 .createdAt(LocalDate.now())
                 .build();
     }

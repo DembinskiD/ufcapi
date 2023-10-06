@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @Builder
-public class Fight implements Serializable {
+public class FightDTO implements Serializable {
     private String date; //todo to be changed for LocalDate
     private String promotion;
     private String event;

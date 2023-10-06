@@ -1,6 +1,6 @@
 package com.dembinski.ufcapi.rest;
 
-import com.dembinski.ufcapi.source.Fight;
+import com.dembinski.ufcapi.source.FightDTO;
 import com.dembinski.ufcapi.source.FightReader;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,25 +20,25 @@ public class Fights {
 
     private final FightReader fightReader;
 
-    private List<Fight> allFights;
+    private final List<FightDTO> allFightDTOS = new ArrayList<>();
 
     @PostConstruct
-    void getListOfFights() {
-        this.allFights = fightReader.getAllFights();
+    void initializeFightList() {
+        this.allFightDTOS.addAll(fightReader.getAllFights());
     }
 
     @GetMapping({"/", "/getAll"})
-    public List<Fight> getAllFights() {
-        return allFights;
+    public List<FightDTO> getAllFightDTOS() {
+        return allFightDTOS;
     }
 
     @GetMapping("/count")
     public Long getAllFightsCount(@RequestParam Optional<String> type) {
         return type.isPresent() ?
-                this.allFights.stream()
+                this.allFightDTOS.stream()
                         .filter(x -> x.getMain_or_prelim().equalsIgnoreCase(type.get()))
                         .count() :
-                this.allFights.size();
+                this.allFightDTOS.size();
     }
 
 
