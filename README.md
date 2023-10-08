@@ -1,9 +1,6 @@
 TODO LIST:
-- Keep it in DB?
-- If DB then DTOs, service, Repository, Mapper
+- ***Work on entities and its mappings***
 - API returns responseEntity
 - Security layer?
-- package-info.java
 - architecture tests
 - make app stateless?
-- **WORKING ON MAPSTRUCT NOW**
