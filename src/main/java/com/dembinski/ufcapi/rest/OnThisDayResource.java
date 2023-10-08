@@ -1,12 +1,8 @@
 package com.dembinski.ufcapi.rest;
 
-import com.dembinski.ufcapi.data.Fight;
-import com.dembinski.ufcapi.mapper.FightMapper;
 import com.dembinski.ufcapi.service.FightService;
-import com.dembinski.ufcapi.source.FightDTO;
-import lombok.AccessLevel;
+import com.dembinski.ufcapi.source.FightDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,18 +22,18 @@ public class OnThisDayResource {
     private final FightService fightService;
 
     @GetMapping("/onThisDay")
-    public List<FightDTO> whatHappenedOnThisDay() {
+    public List<FightDto> whatHappenedOnThisDay() {
         return getAllFights()
                 .stream()
                 .filter(this::didFightHappenOnThisDay)
                 .collect(Collectors.toList());
     }
 
-    protected List<FightDTO> getAllFights() {
+    protected List<FightDto> getAllFights() {
         return fightService.getAllDto();
     }
 
-    protected boolean didFightHappenOnThisDay(FightDTO fightDTO) {
+    protected boolean didFightHappenOnThisDay(FightDto fightDTO) {
         try {
             LocalDate fightDate = fightDTO.getDate();
             LocalDate thisDay = getThisDay();

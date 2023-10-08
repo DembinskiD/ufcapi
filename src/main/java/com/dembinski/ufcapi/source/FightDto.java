@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FightDTO implements Serializable {
+public class FightDto implements Serializable {
     LocalDate date;
     String promotion;
     String event;

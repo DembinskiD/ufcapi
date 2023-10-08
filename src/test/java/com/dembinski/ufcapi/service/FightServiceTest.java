@@ -2,7 +2,7 @@ package com.dembinski.ufcapi.service;
 
 import com.dembinski.ufcapi.data.Fight;
 import com.dembinski.ufcapi.mapper.FightMapper;
-import com.dembinski.ufcapi.source.FightDTO;
+import com.dembinski.ufcapi.source.FightDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class FightServiceTest {
 
     @Test
     void test_toFightMapper() {
-        FightDTO testFightDto = getFightDto(1);
+        FightDto testFightDto = getFightDto(1);
 
         Fight mappedFight = fightMapper.toFight(testFightDto);
 
@@ -45,8 +45,8 @@ class FightServiceTest {
         assertEquals("testFightingTomatoesNumber", mappedFight.getFighting_tomatoes_number_ratings());
     }
 
-    private FightDTO getFightDto(int val) {
-        return FightDTO
+    private FightDto getFightDto(int val) {
+        return FightDto
                 .builder()
                 .date(LocalDate.of(2023, 10, 5))
                 .promotion("testPromotion " + val)
@@ -69,7 +69,7 @@ class FightServiceTest {
     void test_toFightDtoMapper() {
         Fight testFight = getFight(1);
 
-        FightDTO mappedFight = fightMapper.toFightDto(testFight);
+        FightDto mappedFight = fightMapper.toFightDto(testFight);
 
         assertEquals(LocalDate.of(2023, 10, 5), mappedFight.getDate());
         assertEquals("testPromotion 1", mappedFight.getPromotion());
@@ -111,7 +111,7 @@ class FightServiceTest {
         return IntStream.range(0, amt).mapToObj(this::getFight).toList();
     }
 
-    private List<FightDTO> generateFightDtos(int amt) {
+    private List<FightDto> generateFightDtos(int amt) {
         return IntStream.range(0, amt).mapToObj(this::getFightDto).toList();
     }
 
@@ -119,7 +119,7 @@ class FightServiceTest {
     void test_toFightDtoList() {
         List<Fight> sourceList = generateFights(10);
 
-        List<FightDTO> targetList = fightMapper.toListFightDto(sourceList);
+        List<FightDto> targetList = fightMapper.toListFightDto(sourceList);
 
         assertEquals(10, targetList.size());
         assertNotNull(targetList);
@@ -128,7 +128,7 @@ class FightServiceTest {
 
     @Test
     void test_toFightList() {
-        List<FightDTO> sourceList = generateFightDtos(10);
+        List<FightDto> sourceList = generateFightDtos(10);
 
         List<Fight> targetList = fightMapper.toListFight(sourceList);
 

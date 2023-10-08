@@ -1,7 +1,7 @@
 package com.dembinski.ufcapi.mapper;
 
 import com.dembinski.ufcapi.data.Fight;
-import com.dembinski.ufcapi.source.FightDTO;
+import com.dembinski.ufcapi.source.FightDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -9,12 +9,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface FightMapper {
 
-    FightDTO toFightDto(Fight fight);
+    FightDto toFightDto(Fight fight);
 
-    Fight toFight(FightDTO fightDto);
+    Fight toFight(FightDto fightDto);
 
-    List<FightDTO> toListFightDto(List<Fight> fightList);
+    List<FightDto> toListFightDto(List<Fight> fightList);
 
-    List<Fight> toListFight(List<FightDTO> fightDtoList);
+    List<Fight> toListFight(List<FightDto> fightDtoList);
 
 }

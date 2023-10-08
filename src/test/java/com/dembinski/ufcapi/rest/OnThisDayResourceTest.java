@@ -3,11 +3,9 @@ package com.dembinski.ufcapi.rest;
 import com.dembinski.ufcapi.mapper.FightMapperImpl;
 import com.dembinski.ufcapi.repository.FightRepository;
 import com.dembinski.ufcapi.service.FightService;
-import com.dembinski.ufcapi.source.FightDTO;
+import com.dembinski.ufcapi.source.FightDto;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,13 +33,13 @@ class OnThisDayResourceTest {
         Mockito.doReturn(getListOfTestFights()).when(OtdSpy).getAllFights();
         Mockito.doReturn(LocalDate.of(2023, 9, 13)).when(OtdSpy).getThisDay();
 
-        List<FightDTO> fights = OtdSpy.whatHappenedOnThisDay();
+        List<FightDto> fights = OtdSpy.whatHappenedOnThisDay();
 
         assertEquals(2, fights.size());
         assertEquals(2, fights.stream().filter(fight -> fight.getDate().equals(LocalDate.of(2023, 9, 13))).count());
     }
 
-    private List<FightDTO> getListOfTestFights() {
+    private List<FightDto> getListOfTestFights() {
         return List.of(
                 createFight("2023-09-13"),
                 createFight("2023-09-13"),
@@ -50,8 +48,8 @@ class OnThisDayResourceTest {
                 createFight("2023-09-16"));
     }
 
-    private FightDTO createFight(String date) {
-        return FightDTO.builder()
+    private FightDto createFight(String date) {
+        return FightDto.builder()
                 .date(LocalDate.parse(date, DateTimeFormatter.ISO_DATE))
                 .build();
     }

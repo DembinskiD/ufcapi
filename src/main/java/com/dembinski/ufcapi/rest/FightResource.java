@@ -1,7 +1,7 @@
 package com.dembinski.ufcapi.rest;
 
 import com.dembinski.ufcapi.service.FightService;
-import com.dembinski.ufcapi.source.FightDTO;
+import com.dembinski.ufcapi.source.FightDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class FightResource {
 
 
     @GetMapping({"/", "/getAll"})
-    public List<FightDTO> getAllFightDTOS() {
+    public List<FightDto> getAllFightDTOS() {
         return fightService.getAllDto();
     }
 

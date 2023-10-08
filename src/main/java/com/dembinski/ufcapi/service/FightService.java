@@ -3,7 +3,7 @@ package com.dembinski.ufcapi.service;
 import com.dembinski.ufcapi.data.Fight;
 import com.dembinski.ufcapi.mapper.FightMapper;
 import com.dembinski.ufcapi.repository.FightRepository;
-import com.dembinski.ufcapi.source.FightDTO;
+import com.dembinski.ufcapi.source.FightDto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class FightService {
         return fightRepository.findAll();
     }
 
-    public List<FightDTO> getAllDto() {
+    public List<FightDto> getAllDto() {
         return fightMapper.toListFightDto(fightRepository.findAll());
     }
 
