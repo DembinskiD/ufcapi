@@ -3,8 +3,7 @@ package com.dembinski.ufcapi.service;
 import com.dembinski.ufcapi.data.Fight;
 import com.dembinski.ufcapi.mapper.FightMapper;
 import com.dembinski.ufcapi.repository.FightRepository;
-import com.dembinski.ufcapi.source.FightReader;
-import jakarta.annotation.PostConstruct;
+import com.dembinski.ufcapi.source.FightDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +19,16 @@ public class FightService {
 
     private final FightMapper fightMapper;
     private final FightRepository fightRepository;
-    private final FightReader fightReader;
 
-    @PostConstruct
-    void loadDB() {
-        loadDatabase();
+    public List<Fight> getAll() {
+        return fightRepository.findAll();
     }
 
-    public List<Fight> loadDatabase() {
-        return fightRepository.saveAll(fightMapper.toListFight(fightReader.getAllFights()));
+    public List<FightDTO> getAllDto() {
+        return fightMapper.toListFightDto(fightRepository.findAll());
+    }
+
+    public long countAll() {
+        return fightRepository.count();
     }
 }

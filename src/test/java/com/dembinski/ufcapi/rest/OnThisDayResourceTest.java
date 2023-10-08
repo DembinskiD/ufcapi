@@ -1,12 +1,17 @@
 package com.dembinski.ufcapi.rest;
 
+import com.dembinski.ufcapi.mapper.FightMapperImpl;
+import com.dembinski.ufcapi.repository.FightRepository;
+import com.dembinski.ufcapi.service.FightService;
 import com.dembinski.ufcapi.source.FightDTO;
-import com.dembinski.ufcapi.source.FightReader;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.MockBeans;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,22 +19,23 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(classes = {OnThisDay.class, FightReader.class})
-class OnThisDayTest {
+@SpringBootTest(classes = {OnThisDayResource.class, FightMapperImpl.class, FightService.class, FightRepository.class})
+@MockBeans( value = {
+        @MockBean(FightRepository.class)
+})
+class OnThisDayResourceTest {
 
-    @Mock
-    private FightReader fightReader;
-
-    @Spy
-    private OnThisDay onThisDay = new OnThisDay(fightReader);
+    @Autowired
+    private OnThisDayResource onThisDayResource;
 
     @Test
     void getListOfFights() {
-        Mockito.doReturn(getListOfTestFights()).when(onThisDay).getAllFightDTOS();
-        Mockito.doReturn(LocalDate.of(2023, 9, 13)).when(onThisDay).getThisDay();
+        OnThisDayResource OtdSpy = Mockito.spy(onThisDayResource);
 
+        Mockito.doReturn(getListOfTestFights()).when(OtdSpy).getAllFights();
+        Mockito.doReturn(LocalDate.of(2023, 9, 13)).when(OtdSpy).getThisDay();
 
-        List<FightDTO> fights = onThisDay.whatHappenedOnThisDay();
+        List<FightDTO> fights = OtdSpy.whatHappenedOnThisDay();
 
         assertEquals(2, fights.size());
         assertEquals(2, fights.stream().filter(fight -> fight.getDate().equals(LocalDate.of(2023, 9, 13))).count());

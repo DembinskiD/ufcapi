@@ -1,12 +1,29 @@
 package com.dembinski.ufcapi.data;
 
-import com.dembinski.ufcapi.source.FightDTO;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 @Builder
-public record FightList(List<FightDTO> fightDTOS, LocalDate createdAt) implements Serializable {
+@Entity
+@Table(name = "fight_list")
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public final class FightList implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany(mappedBy = "id")
+    private List<Fight> fights;
+
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 }
