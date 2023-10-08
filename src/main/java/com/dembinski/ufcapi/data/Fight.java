@@ -2,8 +2,10 @@ package com.dembinski.ufcapi.data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,6 +16,8 @@ import java.time.LocalDate;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Fight {
 
     @Id
@@ -62,4 +66,9 @@ public class Fight {
 
     @NotNull
     private String fighting_tomatoes_number_ratings;
+
+    @ManyToOne
+    @JoinColumn(name = "fightList")
+    FightList fightList;
+
 }

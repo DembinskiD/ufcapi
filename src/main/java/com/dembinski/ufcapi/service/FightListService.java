@@ -5,6 +5,7 @@ import com.dembinski.ufcapi.mapper.FightMapper;
 import com.dembinski.ufcapi.repository.FightListRepository;
 import com.dembinski.ufcapi.source.FightDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -34,6 +32,24 @@ public class FightListService {
         this.fightMapper = fightMapper;
         this.fightListRepository = fightListRepository;
         this.uri = String.format("https://fightingtomatoes.com/API/%s/Any/Any/Any", apiKey);
+    }
+
+    @PostConstruct
+    void initializeDbIfNeeded() {
+        List<FightList> fightLists = fightListRepository.findAll();
+        if (!fightLists.isEmpty()) {
+            FightList latestFightList = fightLists
+                    .stream()
+                    .sorted(Comparator.comparing(FightList::getCreatedAt, (o1, o2) -> o1.isAfter(o2) ? 1 : o2.isAfter(o1) ? -1 : 0))
+                    .reduce((first, second) -> first)
+                    .get();
+
+            if (shouldUpdateData(latestFightList)) {
+                fightListRepository.save(getFightListFromAPI());
+            }
+        } else {
+            fightListRepository.save(getFightListFromAPI());
+        }
     }
 
     private final FightMapper fightMapper;

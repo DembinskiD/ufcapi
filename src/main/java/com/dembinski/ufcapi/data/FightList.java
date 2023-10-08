@@ -1,9 +1,7 @@
 package com.dembinski.ufcapi.data;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
@@ -15,15 +13,17 @@ import java.util.List;
 @Table(name = "fight_list")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 public final class FightList implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @OneToMany(mappedBy = "id")
-    private List<Fight> fights;
+    List<Fight> fights;
 
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    LocalDate createdAt;
 }
